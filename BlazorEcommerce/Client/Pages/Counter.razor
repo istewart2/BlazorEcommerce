@@ -1,4 +1,6 @@
 ﻿@page "/counter"
+@using BlazorEcommerce.Client.Helper;
+@inject IJSRuntime _JsRuntime
 
 <PageTitle>Counter</PageTitle>
 
@@ -8,11 +10,27 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
+<button class="btn btn-success" @onclick="ShowToastSuccess">Show Toast - Success</button>
+
+<button class="btn btn-danger" @onclick="ShowToastError">Show Toast - Error</button>
+
 @code {
     private int currentCount = 0;
 
     private void IncrementCount()
     {
         currentCount++;
+    }
+
+    private async void ShowToastSuccess()
+    {
+        //await _JsRuntime.InvokeVoidAsync("ShowToastr", "success", "Success");
+        await _JsRuntime.ToastrSuccess("Great success!");
+    }
+
+    private async void ShowToastError()
+    {
+        //await _JsRuntime.InvokeVoidAsync("ShowToastr", "error", "Error");
+        await _JsRuntime.ToastrError("Errroooorrrrrrrr!");
     }
 }
