@@ -1,12 +1,13 @@
 ﻿@page "/counter"
 @using BlazorEcommerce.Client.Helper;
+@using BlazorEcommerce.Client.Services.StateManagement;
 @inject IJSRuntime _JsRuntime
 
 <PageTitle>Counter</PageTitle>
 
 <h1>Counter</h1>
 
-<p role="status">Current count: @currentCount</p>
+<p role="status">Current count: @UserApplicationState.CounterValue</p>
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
@@ -15,11 +16,12 @@
 <button class="btn btn-danger" @onclick="ShowToastError">Show Toast - Error</button>
 
 @code {
-    private int currentCount = 0;
+
+    [CascadingParameter] protected UserApplicationState UserApplicationState { get; set; }
 
     private void IncrementCount()
     {
-        currentCount++;
+        UserApplicationState.CounterValue++;
     }
 
     private async void ShowToastSuccess()

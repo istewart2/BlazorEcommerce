@@ -1,4 +1,5 @@
-﻿@inherits LayoutComponentBase
+﻿@using BlazorEcommerce.Client.Services.StateManagement;
+@inherits LayoutComponentBase
 
 <div class="page">
     <div class="sidebar">
@@ -11,7 +12,13 @@
         </div>
 
         <article class="content px-4">
+            <CascadingValue Value="@UserApplicationState">
             @Body
+            </CascadingValue>
         </article>
     </main>
 </div>
+
+@code {
+    protected UserApplicationState UserApplicationState = new();
+}
