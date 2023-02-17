@@ -1,7 +1,10 @@
 ﻿@page "/counter"
 @using BlazorEcommerce.Client.Helper;
 @using BlazorEcommerce.Client.Services.StateManagement;
-@inject IJSRuntime _JsRuntime
+@using BlazorEcommerce.Client.Services.Store.Counter;
+@using Fluxor;
+@inject IJSRuntime _JsRuntime;
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
 <PageTitle>Counter</PageTitle>
 
@@ -9,7 +12,10 @@
 
 <p role="status">Current count: @UserApplicationState.CounterValue</p>
 
+<p role="status">Fluxor current count: @CounterState.Value.ClickCount</p>
+
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn btn-primary" @onclick="IncrementCountFluxor">Fluxor - click me</button>
 
 <button class="btn btn-success" @onclick="ShowToastSuccess">Show Toast - Success</button>
 
@@ -18,6 +24,18 @@
 @code {
 
     [CascadingParameter] protected UserApplicationState UserApplicationState { get; set; }
+
+    [Inject]
+    private IState<CounterState> CounterState { get; set; }
+
+    [Inject]
+    public IDispatcher Dispatcher { get; set; }
+
+    private void IncrementCountFluxor()
+    {
+        var action = new IncrementCounterAction();
+        Dispatcher.Dispatch(action);
+    }
 
     private void IncrementCount()
     {
